@@ -2,8 +2,8 @@ import ipaddress
 import jinja2
 import os
 
-width = 4
-height = 2
+from config import topo_width as width
+from config import topo_height as height
 
 namespaces = []
 for x in range(width):
