@@ -1,0 +1,24 @@
+!
+hostname {{ ns }}
+password zebra
+log file /var/run/quagga/{{ ns }}/{{ daemon }}.log
+service advanced-vty
+!
+interface lo
+ ip router openfabric 1
+ openfabric passive
+ ipv6 router openfabric 1
+!
+{% for link in links %}
+!
+interface {{ link }}
+ ip router openfabric 1
+ ipv6 router openfabric 1
+!
+{% endfor %}
+!
+router openfabric 1
+ net {{ net }}
+ lsp-gen-interval 2
+ spf-delay-ietf init-delay 30 short-delay 500 long-delay 5000 holddown 5000 time-to-learn 500
+!

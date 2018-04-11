@@ -6,7 +6,8 @@ import subprocess
 import os
 
 from topology import configs
-from config import config_dir, state_dir, user
+
+from config import config_dir, state_dir, sbin_dir, user
 
 ns = sys.argv[1]
 config = configs[ns]
@@ -19,6 +20,19 @@ for directory in ns_config_dir, ns_state_dir:
     subprocess.check_call(['rm', '-rf', directory])
     subprocess.check_call(['mkdir', '-p', directory])
     subprocess.check_call(['chown', '%s:' % user, directory])
+
+for daemon in config['daemons']:
+    ns_config_file_path = os.path.join(ns_config_dir, '%s.conf' % daemon)
+    with open(ns_config_file_path, 'w') as config_file:
+        config_file.write(config['configfiles'][daemon])
+    subprocess.check_call(['chown', '%s:' % user, ns_config_file_path])
+
+children = []
+for daemon in config['daemons']:
+    children.append(subprocess.Popen([os.path.join(sbin_dir, daemon),
+                                      '-A', '::1',
+                                      '-N', ns,
+                                      '-z', os.path.join(ns_state_dir, 'zserv.api')]))
 
 while True:
     time.sleep(30)

@@ -1,0 +1,19 @@
+!
+hostname {{ ns }}
+password zebra
+log file /var/run/quagga/{{ ns }}/{{ daemon }}.log
+service advanced-vty
+!
+ip forwarding
+ipv6 forwarding
+!
+interface lo
+ ip address {{ loopback_v4 }}/32
+ ipv6 address {{ loopback_v6 }}/128
+!
+{% for link in links %}
+interface {{ link }}
+ ip address {{ loopback_v4 }}/32
+!
+{% endfor %}
+!
