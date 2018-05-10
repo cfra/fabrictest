@@ -35,7 +35,8 @@ for daemon in config['daemons']:
     children.append(subprocess.Popen([os.path.join(sbin_dir, daemon),
                                       '-A', '::1',
                                       '-N', ns,
-                                      '-z', os.path.join(ns_state_dir, 'zserv.api')]))
+                                      '-z', os.path.join(ns_state_dir, 'zserv.api'),
+                                      '-u', 'root']))
 
 while True:
     time.sleep(30)
