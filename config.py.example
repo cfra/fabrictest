@@ -1,7 +1,7 @@
-config_dir = '/usr/local/etc/frr'
-state_dir = '/var/run/frr'
-sbin_dir = '/usr/local/sbin'
+config_dir = '/etc/frr'
+state_dir = '/var/opt/frr'
+sbin_dir = '/usr/lib/frr'
 user = 'frr'
 
 topo_height = 3
-topo_width = 10
+topo_width = 3
