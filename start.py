@@ -25,10 +25,9 @@ def startup_delay():
 print("Starting children")
 children = []
 for ns in namespaces:
-    children.append(subprocess.Popen(['sh', '-c', 'sleep %r && exec ip netns exec %s %s %s' % (
-                                      startup_delay(), ns,
-                                      os.path.join(base_dir, 'netns_startup.py'),
-                                      ns)]))
+    children.append(subprocess.Popen(['ip', 'netns', 'exec', ns,
+                                      os.path.join(base_dir, 'netns_startup.py'), ns]))
+    time.sleep(1)
 
 print("Done")
 while True:
