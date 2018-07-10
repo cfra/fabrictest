@@ -70,15 +70,7 @@ git clone https://github.com/cfra/fabrictest.git
 cd fabrictest
 apt-get install python3-pip
 pip3 install -r requirements.txt
-cat <<-EOF > config.py
-config_dir = '/etc/frr'
-state_dir = '/var/opt/frr'
-sbin_dir = '/usr/lib/frr'
-user = 'frr'
-
-topo_height = 3
-topo_width = 3
-EOF
+cp config.py.example config.py
 ```
 
 Run fabrictest
