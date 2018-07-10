@@ -11,9 +11,3 @@ interface lo
  ip address {{ loopback_v4 }}/32
  ipv6 address {{ loopback_v6 }}/128
 !
-{% for link in links %}
-interface {{ link }}
- ip address {{ loopback_v4 }}/32
-!
-{% endfor %}
-!

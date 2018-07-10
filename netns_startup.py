@@ -15,7 +15,10 @@ config = configs[ns]
 ns_config_dir = os.path.join(config_dir, ns)
 ns_state_dir = os.path.join(state_dir, ns)
 
-subprocess.check_call(['ip', 'link', 'set', 'lo', 'up'])
+
+for interface in ['lo'] + config['links']:
+    subprocess.check_call(['ip', 'link', 'set', interface, 'up'])
+
 for directory in ns_config_dir, ns_state_dir:
     subprocess.check_call(['rm', '-rf', directory])
     subprocess.check_call(['mkdir', '-p', directory])
