@@ -1,6 +1,10 @@
 Usage on Debian 9
 =================
 
+A terminal session of the following procedure and a short test drive of fabrictest can be seen here:
+
+[![asciicast](https://asciinema.org/a/191023.png)](https://asciinema.org/a/191023)
+
 Upgrade system and install dependencies
 
 ```
