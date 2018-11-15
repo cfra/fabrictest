@@ -10,8 +10,8 @@ Upgrade system and install dependencies
 ```
 apt-get update
 apt-get upgrade
-apt-get install git autoconf automake libtool make \
-  libreadline-dev texinfo libjson-c-dev pkg-config bison flex \
+apt-get install git autoconf automake cmake libtool make \
+  libreadline-dev texinfo libjson-c-dev libpcre3-dev pkg-config bison flex \
   python-pip libc-ares-dev python3-dev python-pytest python3-sphinx \
   install-info
 ```
@@ -28,14 +28,26 @@ adduser --system \
         --shell /bin/false \
         frr
 usermod -a -G frrvty frr
+gpasswd -a root frrvty
+```
+
+Build libyang
+
+```
+git clone https://github.com/opensourcerouting/libyang
+cd libyang
+git checkout -b tmp origin/tmp
+mkdir build; cd build
+cmake -DENABLE_LYD_PRIV=ON ..
+make
+sudo make install
 ```
 
 Clone, configure and build FRR
 
 ```
-git clone https://github.com/opensourcerouting/frr.git
+git clone https://github.com/FRRouting/frr.git
 cd frr
-git checkout fabricd
 ./bootstrap.sh
 ./configure \
     --enable-exampledir=/usr/share/doc/frr/examples/ \
@@ -57,8 +69,9 @@ git checkout fabricd
     --enable-rtadv \
     --enable-fpm \
     --enable-ldpd \
+    --enable-sharpd \
     --with-pkg-git-version
-make -j4
+make -j$(grep 'processor\s*:' /proc/cpuinfo | wc -l)
 make check
 make install
 ```
